@@ -1,0 +1,6 @@
+C:\Users\Jason\Documents\GitHub\Development Opdracht - Algoritme\Practicum opdracht\Practicum opdracht\bin\Debug\Practicum opdracht.exe.config
+C:\Users\Jason\Documents\GitHub\Development Opdracht - Algoritme\Practicum opdracht\Practicum opdracht\bin\Debug\Practicum opdracht.exe
+C:\Users\Jason\Documents\GitHub\Development Opdracht - Algoritme\Practicum opdracht\Practicum opdracht\bin\Debug\Practicum opdracht.pdb
+C:\Users\Jason\Documents\GitHub\Development Opdracht - Algoritme\Practicum opdracht\Practicum opdracht\obj\Debug\Practicum opdracht.csprojResolveAssemblyReference.cache
+C:\Users\Jason\Documents\GitHub\Development Opdracht - Algoritme\Practicum opdracht\Practicum opdracht\obj\Debug\Practicum opdracht.exe
+C:\Users\Jason\Documents\GitHub\Development Opdracht - Algoritme\Practicum opdracht\Practicum opdracht\obj\Debug\Practicum opdracht.pdb

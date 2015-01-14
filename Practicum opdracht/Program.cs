@@ -12,10 +12,12 @@ namespace Practicum_opdracht
         {
             Bestelling[] queue = new Bestelling[13];
             queue = Vul_Array(queue);
-            Bestelling_Toevoegen(queue);
+           // queue = Bestelling_Toevoegen(queue);
+            Verwijder_Complete_Bestellingen(queue);
+            Console.ReadKey();
         }
 
-        static Array Bestelling_Toevoegen(Bestelling[] queue)
+        static Bestelling[] Bestelling_Toevoegen(Bestelling[] queue)
         {
             int queue_length = queue.Length;
             Bestelling Laatste_Bestelling = queue[queue_length-1];
@@ -28,6 +30,7 @@ namespace Practicum_opdracht
             catch
             {
                 Console.WriteLine("Geen geldige ID ingevoerd");
+                return null;
             }
             bestelling.Bestelling_ID = Laatste_Bestelling.Bestelling_ID + 1;
             Console.WriteLine("is de bestelling in verwerking?");
@@ -50,9 +53,25 @@ namespace Practicum_opdracht
             Console.WriteLine("andere invoer = Nee");
             bestelling.Dadelijk = Console.ReadLine() == "1";
 
-            Console.ReadKey();
-            return null;
+            queue = Maak_Bestelling_Array_Langer(queue);
+            queue[queue.Length-1] = bestelling;
+            return queue;
         }
+
+        static Bestelling[] Verwijder_Complete_Bestellingen(Bestelling[] queue)
+        {
+            Bestelling[] queue_Oud = queue;
+            for (int i = 0; i < queue.Length; i++ )
+            {
+                if(queue[i].Compleet == true)
+                {
+                    
+                }
+            }
+                return null;
+        }
+
+
         static Bestelling[] Vul_Array(Bestelling[] queue)
         {
             
@@ -69,6 +88,20 @@ namespace Practicum_opdracht
                 queue[i-1] = bestelling;
             }
             return queue;
+        }
+
+        static Bestelling[] Maak_Bestelling_Array_Langer(Bestelling[] Array_Oud)
+        {
+            Bestelling[] Array_Nieuw = new Bestelling[Array_Oud.Length + 1];
+            Array.Copy(Array_Oud, Array_Nieuw, Array_Oud.Length);
+            return Array_Nieuw;
+        }
+
+        static Bestelling[] Maak_Bestelling_Array_Korter(Bestelling[] Array_Oud)
+        {
+            Bestelling[] Array_Nieuw = new Bestelling[Array_Oud.Length - 1];
+            Array.Copy(Array_Oud, Array_Nieuw, Array_Oud.Length);
+            return Array_Nieuw;            
         }
     }
 }

@@ -11,8 +11,8 @@ namespace Practicum_opdracht
         public int Klant_ID { get; set; }
         public int Bestelling_ID { get; set; }
         public bool Verwerking { get; set; }
-        public string Start_tijd { get; set; }
-        public string Duur { get; set; }
+        public DateTime Start_tijd { get; set; }
+        public int Duur { get; set; }
         public bool Compleet { get; set; }
         public bool Dadelijk { get; set; }
     }

@@ -11,8 +11,8 @@ namespace Practicum_opdracht
         static void Main(string[] args)
         {
             Bestelling[] queue = new Bestelling[13];
-            queue = Vul_Array(queue);
-            Console.WriteLine("Kies uw nummer: \n 1 - Bestelling Toevoegen \n 2 - Verwijder Complete Bestellingen");
+            queue = Vul_Array(queue);            
+            Console.WriteLine("Kies uw nummer: \n 1 - Bestelling Toevoegen \n 2 - Verwijder Complete Bestellingen \n 3 - Bestelling updaten");
             int opdracht = 0;
             try
             {
@@ -20,7 +20,7 @@ namespace Practicum_opdracht
             }
             catch
             {
-               
+                Console.WriteLine("Geen Juiste invoer");
             }
             switch (opdracht)
             {
@@ -41,10 +41,12 @@ namespace Practicum_opdracht
                     }
                     else
                     {
-
-
                         Console.WriteLine("Verkeerde Input \n Complete Bestellingen Niet Verwijderd");
                     }
+                    break;
+                case 3:
+                    queue = Update_Bestellingen(queue);
+                    Console.WriteLine("Bestelling zijn geupdate");
                     break;
                 default:
                     Console.WriteLine("Geen Juiste invoer");
@@ -75,14 +77,18 @@ namespace Practicum_opdracht
             bestelling.Verwerking = Console.ReadLine() == "1";
             if (bestelling.Verwerking == true)
             {
-                bestelling.Start_tijd = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                bestelling.Start_tijd = DateTime.Now;
             }
-            else
+            Console.WriteLine("Hoe lang duurt de bestelling (In Uren)?");
+            try
             {
-                bestelling.Start_tijd = "";
+                bestelling.Duur = Int32.Parse(Console.ReadLine());
             }
-            Console.WriteLine(bestelling.Start_tijd);
-            bestelling.Duur = "1 dag";
+            catch
+            {
+                Console.WriteLine("Geen geldige Invoer");
+                return null;
+            }
             bestelling.Compleet = false;
             Console.WriteLine("Wacht de klant de bestelling op?");
             Console.WriteLine("1 = Ja");
@@ -124,10 +130,32 @@ namespace Practicum_opdracht
 
         static Bestelling[] Update_Bestellingen(Bestelling[] queue)
         {
+            bool Bestelling_In_Verwerking = false;
             for (int i = 0; i < queue.Length; i++)
             {
+                if (queue[i].Verwerking ==  true)
+                {
+                    Bestelling_In_Verwerking = true; ;
+                }
             }
-            return null;
+            if (Bestelling_In_Verwerking == false)
+            {
+                queue[0].Verwerking = true;
+                queue[0].Start_tijd = DateTime.Now;
+            }
+
+            for (int i = 0; i < queue.Length; i++)
+            {
+                DateTime Eind_tijd = queue[i].Start_tijd.AddHours(queue[i].Duur);
+                if(DateTime.Now > Eind_tijd )
+                {
+                    queue[i].Compleet = true;
+                    queue[i].Verwerking = false;
+                }
+            }
+            
+
+            return queue;
         }
         
         static Bestelling[] Vul_Array(Bestelling[] queue)
@@ -139,8 +167,7 @@ namespace Practicum_opdracht
                 bestelling.Klant_ID = i;
                 bestelling.Bestelling_ID = i;
                 bestelling.Verwerking = false;
-                bestelling.Start_tijd = "";
-                bestelling.Duur = "1 dag";
+                bestelling.Duur = 1 | 2 | 3 | 4;
                 bestelling.Compleet = false;
                 bestelling.Dadelijk = false;
                 queue[i-1] = bestelling;

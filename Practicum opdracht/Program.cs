@@ -11,7 +11,8 @@ namespace Practicum_opdracht
         static void Main(string[] args)
         {
             Bestelling[] queue = new Bestelling[13];
-            queue = Vul_Array(queue);            
+            queue = Vul_Array(queue);
+            Print_queue(queue);
             Console.WriteLine("Kies uw nummer: \n 1 - Bestelling Toevoegen \n 2 - Verwijder Complete Bestellingen \n 3 - Bestelling updaten");
             int opdracht = 0;
             try
@@ -186,6 +187,22 @@ namespace Practicum_opdracht
         {
             Bestelling[] Array_Nieuw = new Bestelling[Array_Oud.Length - 1];
             return Array_Nieuw;            
+        }
+
+        static void Print_queue(Bestelling[] queue)
+        {
+            for(int i = 0; i < queue.Length; i++)
+            {
+                Console.WriteLine("Bestelling " + i +  ":");
+                Console.WriteLine("Bestelling ID:" + queue[i].Bestelling_ID);
+                Console.WriteLine("Klant ID:" + queue[i].Klant_ID);
+                Console.WriteLine("Verwerking:" + queue[i].Verwerking);
+                Console.WriteLine("Start tijd:" + queue[i].Start_tijd);
+                Console.WriteLine("Duur:" + queue[i].Duur);
+                Console.WriteLine("Compleet:" + queue[i].Compleet);
+                Console.WriteLine("Dadelijk:" + queue[i].Dadelijk);
+                Console.WriteLine("");
+            }
         }
     }
 }

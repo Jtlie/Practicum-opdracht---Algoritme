@@ -120,9 +120,15 @@ namespace Practicum_opdracht
             }
             Array.Copy(queue_Zonder_Complete_Bestellingen, queue_nieuw, queue_nieuw.Length);
             return queue_nieuw;
-            
         }
 
+        static Bestelling[] Update_Bestellingen(Bestelling[] queue)
+        {
+            for (int i = 0; i < queue.Length; i++)
+            {
+            }
+            return null;
+        }
         
         static Bestelling[] Vul_Array(Bestelling[] queue)
         {

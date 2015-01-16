@@ -12,49 +12,57 @@ namespace Practicum_opdracht
         {
             Bestelling[] queue = new Bestelling[13];
             queue = Vul_Array(queue);
-            Print_queue(queue);
-            Console.WriteLine("Kies uw nummer: \n 1 - Bestelling Toevoegen \n 2 - Verwijder Complete Bestellingen \n 3 - Bestelling updaten");
-            int opdracht = 0;
-            try
+            bool start = true;
+            while (start == true)
             {
-                opdracht = Int32.Parse(Console.ReadLine());
-            }
-            catch
-            {
-                Console.WriteLine("Geen Juiste invoer");
-            }
-            switch (opdracht)
-            {
-                case 1:
-                    queue = Bestelling_Toevoegen(queue);
-                    break;
-                case 2:
-                    Console.WriteLine("Weet u Zeker dat U ze wilt verwijderen? [j/n]");
-                    string Antwoord = Console.ReadLine();
-                    if(Antwoord == "j" | Antwoord =="J")
-                    {
-                        Verwijder_Complete_Bestellingen(queue);
-                        Console.WriteLine("Complete Bestellingen Verwijderd");
-                    }
-                    else if (Antwoord == "n" | Antwoord == "N")
-                    {
-                        Console.WriteLine("Complete Bestellingen  Niet Verwijderd");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Verkeerde Input \n Complete Bestellingen Niet Verwijderd");
-                    }
-                    break;
-                case 3:
-                    queue = Update_Bestellingen(queue);
-                    Console.WriteLine("Bestelling zijn geupdate");
-                    break;
-                default:
+                Print_queue(queue);
+                Console.WriteLine("Kies uw nummer: \n 1 - Bestelling Toevoegen \n 2 - Verwijder Complete Bestellingen \n 3 - Bestelling updaten \n 4 - Stop");
+                int opdracht = 0;
+                try
+                {
+                    opdracht = Int32.Parse(Console.ReadLine());
+                }
+                catch
+                {
                     Console.WriteLine("Geen Juiste invoer");
-                    break;
+                }
+                switch (opdracht)
+                {
+                    case 1:
+                        queue = Bestelling_Toevoegen(queue);
+                        break;
+                    case 2:
+                        Console.WriteLine("Weet u Zeker dat U ze wilt verwijderen? [j/n]");
+                        string Antwoord = Console.ReadLine();
+                        if (Antwoord == "j" | Antwoord == "J")
+                        {
+                            Verwijder_Complete_Bestellingen(queue);
+                            Console.WriteLine("Complete Bestellingen Verwijderd");
+                        }
+                        else if (Antwoord == "n" | Antwoord == "N")
+                        {
+                            Console.WriteLine("Complete Bestellingen  Niet Verwijderd");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Verkeerde Input \n Complete Bestellingen Niet Verwijderd");
+                        }
+                        break;
+                    case 3:
+                        queue = Update_Bestellingen(queue);
+                        Console.WriteLine("Bestelling zijn geupdate");
+                        break;
+                    case 4:
+                        Console.WriteLine("Process gestopt");
+                        start = false;
+                        break;
+                    default:
+                        Console.WriteLine("Geen Juiste invoer");
+                        break;
+                }
             }
-            Console.ReadKey();
         }
+
 
         static Bestelling[] Bestelling_Toevoegen(Bestelling[] queue)
         {
@@ -80,7 +88,7 @@ namespace Practicum_opdracht
             {
                 bestelling.Start_tijd = DateTime.Now;
             }
-            Console.WriteLine("Hoe lang duurt de bestelling (In Uren)?");
+            Console.WriteLine("Hoe lang duurt de bestelling (In Minuten)?");
             try
             {
                 bestelling.Duur = Int32.Parse(Console.ReadLine());
@@ -147,7 +155,7 @@ namespace Practicum_opdracht
 
             for (int i = 0; i < queue.Length; i++)
             {
-                DateTime Eind_tijd = queue[i].Start_tijd.AddHours(queue[i].Duur);
+                DateTime Eind_tijd = queue[i].Start_tijd.AddMinutes(queue[i].Duur);
                 if(DateTime.Now > Eind_tijd )
                 {
                     queue[i].Compleet = true;
@@ -161,14 +169,14 @@ namespace Practicum_opdracht
         
         static Bestelling[] Vul_Array(Bestelling[] queue)
         {
-            
+            Random rnd = new Random();
             for (int i = 1; i< 14; i++)
             { 
                 Bestelling bestelling = new Bestelling();
                 bestelling.Klant_ID = i;
                 bestelling.Bestelling_ID = i;
                 bestelling.Verwerking = false;
-                bestelling.Duur = 1 | 2 | 3 | 4;
+                bestelling.Duur = rnd.Next(1, 3); 
                 bestelling.Compleet = false;
                 bestelling.Dadelijk = false;
                 queue[i-1] = bestelling;
@@ -193,14 +201,14 @@ namespace Practicum_opdracht
         {
             for(int i = 0; i < queue.Length; i++)
             {
-                Console.WriteLine("Bestelling " + i +  ":");
-                Console.WriteLine("Bestelling ID:" + queue[i].Bestelling_ID);
-                Console.WriteLine("Klant ID:" + queue[i].Klant_ID);
-                Console.WriteLine("Verwerking:" + queue[i].Verwerking);
-                Console.WriteLine("Start tijd:" + queue[i].Start_tijd);
-                Console.WriteLine("Duur:" + queue[i].Duur);
-                Console.WriteLine("Compleet:" + queue[i].Compleet);
-                Console.WriteLine("Dadelijk:" + queue[i].Dadelijk);
+                Console.WriteLine("Bestelling " + i);
+                Console.WriteLine("Bestelling ID:  " + queue[i].Bestelling_ID);
+                Console.WriteLine("Klant ID:       " + queue[i].Klant_ID);
+                Console.WriteLine("Verwerking:     " + queue[i].Verwerking);
+                Console.WriteLine("Start tijd:     " + queue[i].Start_tijd);
+                Console.WriteLine("Duur:           " + queue[i].Duur);
+                Console.WriteLine("Compleet:       " + queue[i].Compleet);
+                Console.WriteLine("Dadelijk:       " + queue[i].Dadelijk);
                 Console.WriteLine("");
             }
         }

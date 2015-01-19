@@ -140,6 +140,17 @@ namespace Practicum_opdracht
         static Bestelling[] Update_Bestellingen(Bestelling[] queue)
         {
             bool Bestelling_In_Verwerking = false;
+
+            for (int i = 0; i < queue.Length; i++)
+            {
+                DateTime Eind_tijd = queue[i].Start_tijd.AddMinutes(queue[i].Duur);
+                if (DateTime.Now > Eind_tijd && queue[i].Start_tijd != DateTime.MinValue)
+                {
+                    queue[i].Compleet = true;
+                    queue[i].Verwerking = false;
+                }
+            }
+
             for (int i = 0; i < queue.Length; i++)
             {
                 if (queue[i].Verwerking ==  true)
@@ -147,22 +158,17 @@ namespace Practicum_opdracht
                     Bestelling_In_Verwerking = true; ;
                 }
             }
-            if (Bestelling_In_Verwerking == false)
-            {
-                queue[0].Verwerking = true;
-                queue[0].Start_tijd = DateTime.Now;
-            }
 
             for (int i = 0; i < queue.Length; i++)
             {
-                DateTime Eind_tijd = queue[i].Start_tijd.AddMinutes(queue[i].Duur);
-                if(DateTime.Now > Eind_tijd )
-                {
-                    queue[i].Compleet = true;
-                    queue[i].Verwerking = false;
-                }
-            }
+                 if (Bestelling_In_Verwerking == false && queue[i].Compleet == false)
+                 {
+                     queue[i].Verwerking = true;
+                     queue[i].Start_tijd = DateTime.Now;
+                     break;
+                 }
             
+            }
 
             return queue;
         }
@@ -214,3 +220,4 @@ namespace Practicum_opdracht
         }
     }
 }
+ 

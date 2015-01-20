@@ -36,7 +36,7 @@ namespace Practicum_opdracht
                         string Antwoord = Console.ReadLine();
                         if (Antwoord == "j" | Antwoord == "J")
                         {
-                            Verwijder_Complete_Bestellingen(queue);
+                            queue = Verwijder_Complete_Bestellingen(queue);
                             Console.WriteLine("Complete Bestellingen Verwijderd");
                         }
                         else if (Antwoord == "n" | Antwoord == "N")
@@ -118,7 +118,7 @@ namespace Practicum_opdracht
             Bestelling[] queue_Zonder_Complete_Bestellingen = new Bestelling[queue.Length];
             for (int i = 0; i < queue.Length; i++ )
             {
-                if(queue[i].Compleet =! true)
+                if(queue[i].Compleet == false)
                 {
                     queue_Zonder_Complete_Bestellingen[j] = queue[i];
                     j++;
@@ -129,10 +129,11 @@ namespace Practicum_opdracht
                 }
             }
             Bestelling[] queue_nieuw = new Bestelling[queue.Length];
-            for (int k = 0; k > Aantal_Compleet; k++)
+            for (int k = 0; k < Aantal_Compleet; k++)
             {
                 queue_nieuw = Maak_Bestelling_Array_Korter(queue_nieuw);
             }
+
             Array.Copy(queue_Zonder_Complete_Bestellingen, queue_nieuw, queue_nieuw.Length);
             return queue_nieuw;
         }
@@ -199,7 +200,7 @@ namespace Practicum_opdracht
 
         static Bestelling[] Maak_Bestelling_Array_Korter(Bestelling[] Array_Oud)
         {
-            Bestelling[] Array_Nieuw = new Bestelling[Array_Oud.Length - 1];
+            Bestelling[] Array_Nieuw = new Bestelling[Array_Oud.Length - 2];
             return Array_Nieuw;            
         }
 

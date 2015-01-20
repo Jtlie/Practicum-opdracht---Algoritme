@@ -155,7 +155,7 @@ namespace Practicum_opdracht
             {
                 if (queue[i].Verwerking ==  true)
                 {
-                    Bestelling_In_Verwerking = true; ;
+                    Bestelling_In_Verwerking = true;
                 }
             }
 

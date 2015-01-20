@@ -200,7 +200,7 @@ namespace Practicum_opdracht
 
         static Bestelling[] Maak_Bestelling_Array_Korter(Bestelling[] Array_Oud)
         {
-            Bestelling[] Array_Nieuw = new Bestelling[Array_Oud.Length - 2];
+            Bestelling[] Array_Nieuw = new Bestelling[Array_Oud.Length - 1];
             return Array_Nieuw;            
         }
 

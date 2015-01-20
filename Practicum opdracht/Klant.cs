@@ -8,13 +8,13 @@ namespace Practicum_opdracht
 {
     public class Klant
     {
-        int Klant_ID;
-        string Achternaam;
-        string Tussenvoegsel;
-        string Voornaam;
-        int Leeftijd;
-        string Geslacht;
-        string Plaats;
-        string Email;
+        public int Klant_ID { get; set; }
+        public string Voornaam { get; set; }
+        public string Tussenvoegsel { get; set; }
+        public string Achternaam { get; set; }
+        public int Leeftijd { get; set; }
+        public string Geslacht { get; set; }
+        public string Plaats { get; set; }
+        public string Email { get; set; }
     }
 }

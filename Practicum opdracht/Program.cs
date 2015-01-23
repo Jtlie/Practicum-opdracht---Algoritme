@@ -17,7 +17,7 @@ namespace Practicum_opdracht
             bool start = true;
             while (start == true)
             {
-                Console.WriteLine("Kies uw nummer: \n 1 - Bestelling Toevoegen \n 2 - Verwijder Complete Bestellingen \n 3 - Bestelling updaten \n 4 - Stop \n 5 - Print de Queue \n 6 - Print Klanten");
+                Console.WriteLine("Kies uw nummer: \n 1 - Bestelling Toevoegen \n 2 - Verwijder Complete Bestellingen \n 3 - Bestelling updaten \n 4 - Stop \n 5 - Print de Queue \n 6 - Print Klanten \n 7 - sorteer/zoek Klantendatabase");
                 int opdracht = 0;
                 try
                 {
@@ -62,6 +62,41 @@ namespace Practicum_opdracht
                         break;
                     case 6:
                         Print_Klanten(Klanten);
+                        break;
+                    case 7:
+                        int klantensortkeuze;
+                        Console.WriteLine("Kies 1 om te sorteren , kies 2 om zoeken");
+                        klantensortkeuze = opdracht = Int32.Parse(Console.ReadLine());
+
+                        if(klantensortkeuze == 1)
+                        {                            
+                           Klanten = Sorteer_klanten_Op_Leeftijd(Klanten, 0, Klanten.Length - 1);
+                           Print_Klanten(Klanten);
+                        }
+                        else if (klantensortkeuze == 2)
+                        {
+
+                            int klantensortkeuze2;
+                            Console.WriteLine("Kies 1 om op achternaam te zoeken , kies 2 om op leeftijd te zoeken");
+                            klantensortkeuze2 = opdracht = Int32.Parse(Console.ReadLine());
+
+                            if (klantensortkeuze2 == 1)
+                            {
+                                Console.WriteLine("Voer achternaam in");
+                                String achternaam = Console.ReadLine();
+                                Zoek_klant_op_achternaam(Klanten, achternaam);
+
+                            }
+                            else if (klantensortkeuze2 == 2)
+                            {
+                                Console.WriteLine("Voer leeftijd in");
+                                int leeftijd = Int32.Parse(Console.ReadLine());
+                                Zoek_klant_op_leeftijd(Klanten, leeftijd);
+                            }
+
+
+                        }
+                        
                         break;
                     default:
                         Console.WriteLine("Geen Juiste invoer");
@@ -201,11 +236,15 @@ namespace Practicum_opdracht
         static Klant[] Vul__Klant_Array(Klant[] klanten)
         {
             Random rnd = new Random();
+            string[] klantenstring = new string[13] { "bbbbb", "kkkkk", "rrrrr", "ffff", "aaaaa", "ggg", "xxxx", "hhhh", "iiii", "jjjj", "kkkk", "llll", "mmmm" }; 
+
             for (int i = 1; i < klanten.Length+1; i++)
-            {
+            {                
                 Klant klant = new Klant();
-                klant.Achternaam = Random_naam(10);
-                klant.Email = Random_naam(15);
+                //klant.Achternaam = Random_naam(10);
+                klant.Achternaam = klantenstring[i];
+                //klant.Email = Random_naam(15);
+                klant.Email = klantenstring[i];
                 int random_geslacht = rnd.Next(1, 2); 
                 if(random_geslacht == 1)
                 {
@@ -216,13 +255,98 @@ namespace Practicum_opdracht
                 }
                 klant.Klant_ID = i;
                 klant.Leeftijd = rnd.Next(18, 60);
-                klant.Plaats = Random_naam(20);
-                klant.Voornaam = Random_naam(6);
+                //klant.Plaats = Random_naam(20);
+                klant.Plaats = klantenstring[i];
+                //klant.Voornaam = Random_naam(6);
+                klant.Voornaam = klantenstring[i];
                 klant.Tussenvoegsel = Random_naam(3);
                 klanten[i - 1] = klant;
             }
             return klanten;
         }
+
+        public static Klant[] Sorteer_klanten_Op_Leeftijd(Klant[] input, int left, int right)
+        {
+            if (left < right)
+            {
+                int middle = (left + right) / 2;
+
+                Sorteer_klanten_Op_Leeftijd(input, left, middle);
+                Sorteer_klanten_Op_Leeftijd(input, middle + 1, right);
+
+                //Merge
+                Klant[] leftArray = new Klant[middle - left + 1];
+                Klant[] rightArray = new Klant[right - middle];
+
+                Array.Copy(input, left, leftArray, 0, middle - left + 1);
+                Array.Copy(input, middle + 1, rightArray, 0, right - middle);
+
+                int i = 0;
+                int j = 0;
+                for (int k = left; k < right + 1; k++)
+                {
+                    if (i == leftArray.Length)
+                    {
+                        input[k] = rightArray[j];
+                        j++;
+                    }
+                    else if (j == rightArray.Length)
+                    {
+                        input[k] = leftArray[i];
+                        i++;
+                    }
+                    else if (leftArray[i].Leeftijd <= rightArray[j].Leeftijd)
+                    {
+                        input[k] = leftArray[i];
+                        i++;
+                    }
+                    else
+                    {
+                        input[k] = rightArray[j];
+                        j++;
+                    }
+                }
+            }
+
+            return input;
+        }
+
+        public static void Zoek_klant_op_achternaam(Klant[] klanten, String achternaam)
+        {
+            for (int i = 0; i < klanten.Length; i++)
+                if (klanten[i].Achternaam == achternaam)
+                {
+                    Console.WriteLine("Klant " + i);
+                    Console.WriteLine("Klant_ID:       " + klanten[i].Klant_ID);
+                    Console.WriteLine("Voornaam:       " + klanten[i].Voornaam);
+                    Console.WriteLine("Tussenvoegsel:  " + klanten[i].Tussenvoegsel);
+                    Console.WriteLine("Achternaam:     " + klanten[i].Achternaam);
+                    Console.WriteLine("Leeftijd:       " + klanten[i].Leeftijd);
+                    Console.WriteLine("Geslacht:       " + klanten[i].Geslacht);
+                    Console.WriteLine("Plaats:         " + klanten[i].Plaats);
+                    Console.WriteLine("E-mail:         " + klanten[i].Email);
+                    Console.WriteLine("");
+                }
+        }
+
+        public static void Zoek_klant_op_leeftijd(Klant[] klanten, int leeftijd)
+        {
+            for (int i = 0; i < klanten.Length; i++)
+                if (klanten[i].Leeftijd == leeftijd)
+                {
+                    Console.WriteLine("Klant " + i);
+                    Console.WriteLine("Klant_ID:       " + klanten[i].Klant_ID);
+                    Console.WriteLine("Voornaam:       " + klanten[i].Voornaam);
+                    Console.WriteLine("Tussenvoegsel:  " + klanten[i].Tussenvoegsel);
+                    Console.WriteLine("Achternaam:     " + klanten[i].Achternaam);
+                    Console.WriteLine("Leeftijd:       " + klanten[i].Leeftijd);
+                    Console.WriteLine("Geslacht:       " + klanten[i].Geslacht);
+                    Console.WriteLine("Plaats:         " + klanten[i].Plaats);
+                    Console.WriteLine("E-mail:         " + klanten[i].Email);
+                    Console.WriteLine("");
+                }
+        }
+
 
         static Bestelling[] Voeg_index_Toe(Bestelling[] Array_Oud)
         {
@@ -242,6 +366,7 @@ namespace Practicum_opdracht
             StringBuilder builder = new StringBuilder();
             char ch;
             for (int i = 0; i < size; i++)
+                
             {
                 ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * random.NextDouble() + 65)));
                 builder.Append(ch);

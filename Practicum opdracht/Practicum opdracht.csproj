@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="bestelling.cs" />
+    <Compile Include="BinaryTree.cs" />
     <Compile Include="Klant.cs" />
+    <Compile Include="NodeKlant.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

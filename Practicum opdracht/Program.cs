@@ -579,8 +579,7 @@ namespace Practicum_opdracht
             }
         }
 
-<<<<<<< HEAD
-=======
+
         /// <summary>
         /// methode om een binary tree te maken van de klanten array
         /// </summary>
@@ -590,7 +589,6 @@ namespace Practicum_opdracht
             BinaryTree tree = new BinaryTree(klanten);
             return tree;
         }
->>>>>>> 4c03b635909b776c0edfc3805d437115bf3108ea
     }
 }
  

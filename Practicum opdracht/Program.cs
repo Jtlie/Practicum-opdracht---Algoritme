@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Practicum_opdracht
 {
     class Program
@@ -77,10 +78,26 @@ namespace Practicum_opdracht
                         klantensortkeuze = opdracht = Int32.Parse(Console.ReadLine());
 
                         if(klantensortkeuze == 1)
-                        {                            
-                           Klanten = Sorteer_klanten_Op_Leeftijd(Klanten, 0, Klanten.Length - 1);
+                        {
+                           int klantensortkeuze2;
+                           Console.WriteLine("Kies 1 om op achternaam te sorteren , kies 2 om op leeftijd te sorteren");
+                           klantensortkeuze2 = opdracht = Int32.Parse(Console.ReadLine());
+
+                            if (klantensortkeuze2 == 1)
+                            {
+                                Klanten = Sorteer_klanten_op_achternaam(Klanten);
+                                Print_Klanten(Klanten);
+                            }
+                            else if (klantensortkeuze2 == 2)
+                            {
+                                Klanten = Sorteer_klanten_Op_Leeftijd(Klanten, 0, Klanten.Length-1);
+                                Print_Klanten(Klanten);
+                            }
+
+                           Klanten = Sorteer_klanten_op_achternaam(Klanten);
                            Print_Klanten(Klanten);
                         }
+
                         else if (klantensortkeuze == 2)
                         {
                             int klantensortkeuze2;
@@ -355,6 +372,28 @@ namespace Practicum_opdracht
             return input;
         }
 
+        public static Klant[] Sorteer_klanten_op_achternaam(Klant[] Klanten)
+        {
+            Klant X;
+            int i, j;
+            for (j = 1; j < Klanten.Length; j++)
+            {
+                X = Klanten[j];
+                i = j - 1;
+                while (i>= 0)
+                {
+                    if (X.Achternaam.CompareTo(Klanten[i].Achternaam) > 0)
+                    {
+                        break;
+                    }
+                    Klanten[i + 1] = Klanten[i];
+                    i--;
+                }
+                Klanten[i + 1] = X;
+            }
+            return Klanten;
+        }
+
         /// <summary>
         /// methode om een klant uit klanten array op achternaam te vinden
         /// </summary>
@@ -485,6 +524,7 @@ namespace Practicum_opdracht
                 Console.WriteLine("");
             }
         }
+
     }
 }
  

@@ -7,14 +7,22 @@ namespace Practicum_opdracht
 {
     class Program
     {
-        
+        /// <summary>
+        /// entry point
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
+            // maak bestellingen en klanten array aan
             Bestelling[] queue = new Bestelling[13];
             Klant[] Klanten = new Klant[10];
+            bool start = true;
+
+            // vul arrays
             queue = Vul_Array(queue);
             Klanten = Vul__Klant_Array(Klanten);
-            bool start = true;
+            
+            // opties loop
             while (start == true)
             {
                 Console.WriteLine("Kies uw nummer: \n 1 - Bestelling Toevoegen \n 2 - Verwijder Complete Bestellingen \n 3 - Bestelling updaten \n 4 - Stop \n 5 - Print de Queue \n 6 - Print Klanten \n 7 - sorteer/zoek Klantendatabase");
@@ -75,7 +83,6 @@ namespace Practicum_opdracht
                         }
                         else if (klantensortkeuze == 2)
                         {
-
                             int klantensortkeuze2;
                             Console.WriteLine("Kies 1 om op achternaam te zoeken , kies 2 om op leeftijd te zoeken");
                             klantensortkeuze2 = opdracht = Int32.Parse(Console.ReadLine());
@@ -85,7 +92,6 @@ namespace Practicum_opdracht
                                 Console.WriteLine("Voer achternaam in");
                                 String achternaam = Console.ReadLine();
                                 Zoek_klant_op_achternaam(Klanten, achternaam);
-
                             }
                             else if (klantensortkeuze2 == 2)
                             {
@@ -93,10 +99,7 @@ namespace Practicum_opdracht
                                 int leeftijd = Int32.Parse(Console.ReadLine());
                                 Zoek_klant_op_leeftijd(Klanten, leeftijd);
                             }
-
-
-                        }
-                        
+                        }                        
                         break;
                     default:
                         Console.WriteLine("Geen Juiste invoer");
@@ -105,13 +108,18 @@ namespace Practicum_opdracht
             }
         }
 
-
+        /// <summary>
+        /// methode om bestelling aan de bestellingen array toe te voegen
+        /// </summary>
+        /// <param name="queue">bestelling array</param>
+        /// <returns>bestellingen array</returns>
         static Bestelling[] Bestelling_Toevoegen(Bestelling[] queue)
         {
             int queue_length = queue.Length;
             Bestelling Laatste_Bestelling = queue[queue_length-1];
             Bestelling bestelling = new Bestelling();
             Console.WriteLine("Voer een Klant_ID in (Cijfers)");
+
             try
             {
                 bestelling.Klant_ID = Int32.Parse(Console.ReadLine());
@@ -121,16 +129,20 @@ namespace Practicum_opdracht
                 Console.WriteLine("Geen geldige ID ingevoerd");
                 return null;
             }
+
             bestelling.Bestelling_ID = Laatste_Bestelling.Bestelling_ID + 1;
             Console.WriteLine("is de bestelling in verwerking?");
             Console.WriteLine("1 = Ja");
             Console.WriteLine("andere invoer = Nee");
             bestelling.Verwerking = Console.ReadLine() == "1";
+
             if (bestelling.Verwerking == true)
             {
                 bestelling.Start_tijd = DateTime.Now;
             }
+
             Console.WriteLine("Hoe lang duurt de bestelling (In Minuten)?");
+
             try
             {
                 bestelling.Duur = Int32.Parse(Console.ReadLine());
@@ -140,24 +152,30 @@ namespace Practicum_opdracht
                 Console.WriteLine("Geen geldige Invoer");
                 return null;
             }
+
             bestelling.Compleet = false;
             Console.WriteLine("Wacht de klant de bestelling op?");
             Console.WriteLine("1 = Ja");
             Console.WriteLine("andere invoer = Nee");
             bestelling.Dadelijk = Console.ReadLine() == "1";
-
             queue = Voeg_index_Toe(queue);
             queue[queue.Length-1] = bestelling;
             Console.WriteLine("bestelling toegevoegd");
             return queue;
         }
 
+        /// <summary>
+        /// methode om complete bestellingen te verwijderen
+        /// </summary>
+        /// <param name="queue">bestellingen array</param>
+        /// <returns>bestellingen array</returns>
         static Bestelling[] Verwijder_Complete_Bestellingen(Bestelling[] queue)
         {
             int j = 0;
             int Aantal_Compleet = 0;
             
             Bestelling[] queue_Zonder_Complete_Bestellingen = new Bestelling[queue.Length];
+
             for (int i = 0; i < queue.Length; i++ )
             {
                 if(queue[i].Compleet == false)
@@ -170,7 +188,9 @@ namespace Practicum_opdracht
                     Aantal_Compleet++;
                 }
             }
+
             Bestelling[] queue_nieuw = new Bestelling[queue.Length];
+
             for (int k = 0; k < Aantal_Compleet; k++)
             {
                 queue_nieuw = Maak_Bestelling_Array_Korter(queue_nieuw);
@@ -180,6 +200,11 @@ namespace Practicum_opdracht
             return queue_nieuw;
         }
 
+        /// <summary>
+        /// methode om de complete bestelling op "compleet" te zetten
+        /// </summary>
+        /// <param name="queue">bestellingen array</param>
+        /// <returns>bestellingen array</returns>
         static Bestelling[] Update_Bestellingen(Bestelling[] queue)
         {
             bool Bestelling_In_Verwerking = false;
@@ -209,16 +234,21 @@ namespace Practicum_opdracht
                      queue[i].Verwerking = true;
                      queue[i].Start_tijd = DateTime.Now;
                      break;
-                 }
-            
+                 }            
             }
 
             return queue;
         }
-        
+
+        /// <summary>
+        /// methode om de bestellingen array te vullen
+        /// </summary>
+        /// <param name="queue">bestellingen array</param>
+        /// <returns>bestellingen array</returns>
         static Bestelling[] Vul_Array(Bestelling[] queue)
         {
             Random rnd = new Random();
+
             for (int i = 1; i< 14; i++)
             { 
                 Bestelling bestelling = new Bestelling();
@@ -230,13 +260,19 @@ namespace Practicum_opdracht
                 bestelling.Dadelijk = false;
                 queue[i-1] = bestelling;
             }
+
             return queue;
         }
 
+        /// <summary>
+        /// methode om de klanten array te vullen
+        /// </summary>
+        /// <param name="klanten">klanten array</param>
+        /// <returns>klantenarray</returns>
         static Klant[] Vul__Klant_Array(Klant[] klanten)
         {
             Random rnd = new Random();
-            string[] klantenstring = new string[13] { "bbbbb", "kkkkk", "rrrrr", "ffff", "aaaaa", "ggg", "xxxx", "hhhh", "iiii", "jjjj", "kkkk", "llll", "mmmm" }; 
+            string[] klantenstring = new string[13] { "Liam", "Emma", "Noah", "Olivia", "Ethan", "Sophia", "Mason", "Ava", "Logan", "Isabella", "Lucas", "Mia", "Jacob" }; 
 
             for (int i = 1; i < klanten.Length+1; i++)
             {                
@@ -262,9 +298,17 @@ namespace Practicum_opdracht
                 klant.Tussenvoegsel = Random_naam(3);
                 klanten[i - 1] = klant;
             }
+
             return klanten;
         }
 
+        /// <summary>
+        /// sorteer klanten op leeftijd
+        /// </summary>
+        /// <param name="input">klantenarray</param>
+        /// <param name="left">int 0</param>
+        /// <param name="right">klanten array lengte</param>
+        /// <returns>klantenarray</returns>
         public static Klant[] Sorteer_klanten_Op_Leeftijd(Klant[] input, int left, int right)
         {
             if (left < right)
@@ -311,6 +355,11 @@ namespace Practicum_opdracht
             return input;
         }
 
+        /// <summary>
+        /// methode om een klant uit klanten array op achternaam te vinden
+        /// </summary>
+        /// <param name="klanten">klantenarray</param>
+        /// <param name="achternaam">string achternaam</param>
         public static void Zoek_klant_op_achternaam(Klant[] klanten, String achternaam)
         {
             for (int i = 0; i < klanten.Length; i++)
@@ -329,6 +378,11 @@ namespace Practicum_opdracht
                 }
         }
 
+        /// <summary>
+        /// methode om een klant uit klanten array op leeftijd te vinden
+        /// </summary>
+        /// <param name="klanten">klanten array</param>
+        /// <param name="leeftijd">int leeftijd</param>
         public static void Zoek_klant_op_leeftijd(Klant[] klanten, int leeftijd)
         {
             for (int i = 0; i < klanten.Length; i++)
@@ -347,7 +401,11 @@ namespace Practicum_opdracht
                 }
         }
 
-
+        /// <summary>
+        /// methode om de bestellingen array te vergroten met 1
+        /// </summary>
+        /// <param name="Array_Oud">bestellingen array</param>
+        /// <returns>bestellingen array</returns>
         static Bestelling[] Voeg_index_Toe(Bestelling[] Array_Oud)
         {
             Bestelling[] Array_Nieuw = new Bestelling[Array_Oud.Length + 1];
@@ -355,11 +413,23 @@ namespace Practicum_opdracht
             return Array_Nieuw;
         }
 
+        /// <summary>
+        /// methode om de bestellingen array te verkleinen met 1
+        /// </summary>
+        /// <param name="Array_Oud">bestellingen array</param>
+        /// <returns>bestellingen array</returns>
         static Bestelling[] Maak_Bestelling_Array_Korter(Bestelling[] Array_Oud)
         {
             Bestelling[] Array_Nieuw = new Bestelling[Array_Oud.Length - 1];
+            Array.Copy(Array_Oud, Array_Nieuw, Array_Oud.Length - 1);
             return Array_Nieuw;            
         }
+
+        /// <summary>
+        /// methode om een random naam te genereren
+        /// </summary>
+        /// <param name="size">int grootte van de naam</param>
+        /// <returns>string naam</returns>
         static string Random_naam(int size)
         {
             Random random = new Random((int)DateTime.Now.Ticks);
@@ -373,8 +443,12 @@ namespace Practicum_opdracht
             }
 
             return builder.ToString();
-
         }
+
+        /// <summary>
+        /// methode om te bestellingen array te printen
+        /// </summary>
+        /// <param name="queue">bestellingen array</param>
         static void Print_queue(Bestelling[] queue)
         {
             for(int i = 0; i < queue.Length; i++)
@@ -391,6 +465,10 @@ namespace Practicum_opdracht
             }
         }
 
+        /// <summary>
+        /// methode om de klanten array te printen
+        /// </summary>
+        /// <param name="Klanten">klanten array</param>
         static void Print_Klanten(Klant[] Klanten)
         {
             for (int i = 0; i < Klanten.Length; i++)

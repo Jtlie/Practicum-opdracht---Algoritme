@@ -25,7 +25,16 @@ namespace Practicum_opdracht
             // opties loop
             while (start == true)
             {
-                Console.WriteLine("Kies uw nummer: \n 1 - Bestelling Toevoegen \n 2 - Verwijder Complete Bestellingen \n 3 - Bestelling updaten \n 4 - Stop \n 5 - Print de Queue \n 6 - Print Klanten \n 7 - sorteer/zoek Klantendatabase");
+                Console.WriteLine("Kies uw nummer:");
+                Console.WriteLine(" 1 - Bestelling Toevoegen");
+                Console.WriteLine(" 2 - Verwijder Complete Bestellingen");
+                Console.WriteLine(" 3 - Bestelling updaten");
+                Console.WriteLine(" 4 - STOP");
+                Console.WriteLine(" 5 - Print de Queue");
+                Console.WriteLine(" 6 - Print Klanten");
+                Console.WriteLine(" 7 - sorteer/zoek Klantendatabase");
+                Console.WriteLine(" 8 - binary tree");
+
                 int opdracht = 0;
                 try
                 {
@@ -100,6 +109,51 @@ namespace Practicum_opdracht
                                 Zoek_klant_op_leeftijd(Klanten, leeftijd);
                             }
                         }                        
+                        break;
+                    case 8:
+
+                        // maak binary tree van klanten array
+                        BinaryTree tree = binary_Tree(Klanten);
+                        
+                        int keuze = 0;
+
+                        Console.WriteLine("Kies 1 op een nieuwe Klant toe te voegen, kies 2 om een bestaande klant te verwijderen.");
+
+                        keuze = Int32.Parse(Console.ReadLine());
+
+                        if (keuze == 1)
+                        {
+                            Klant tklant = new Klant();
+
+                            Console.WriteLine("Voer een Klant ID in (cijfers):");
+                            tklant.Klant_ID = Int32.Parse(Console.ReadLine());
+                            Console.WriteLine("Voer een Klant Voornaam in:");
+                            tklant.Voornaam = Console.ReadLine();
+                            Console.WriteLine("Voer een Klant Tussenvoegsel in:");
+                            tklant.Tussenvoegsel = Console.ReadLine();
+                            Console.WriteLine("Voer een Klant Achternaam in:");
+                            tklant.Achternaam = Console.ReadLine();
+                            Console.WriteLine("Voer een Klant Leeftijd in (cijfers):");
+                            tklant.Leeftijd = Int32.Parse(Console.ReadLine());
+                            Console.WriteLine("Voer een Klant Geslacht in:");
+                            tklant.Geslacht = Console.ReadLine();
+                            Console.WriteLine("Voer een Klant Plaats in:");
+                            tklant.Plaats = Console.ReadLine(); 
+                            Console.WriteLine("Voer een Klant Email in:");
+                            tklant.Email = Console.ReadLine();
+
+                            Klant[] tempklant = new Klant[1];
+                            tempklant[0] = tklant;
+
+                            tree.Insert(tempklant);
+                        }
+                        else
+                        {
+                            // verwijder klant methode komt hier.
+                        }
+                        
+                        
+                        
                         break;
                     default:
                         Console.WriteLine("Geen Juiste invoer");
@@ -484,6 +538,16 @@ namespace Practicum_opdracht
                 Console.WriteLine("E-mail:         " + Klanten[i].Email);
                 Console.WriteLine("");
             }
+        }
+
+        /// <summary>
+        /// methode om een binary tree te maken van de klanten array
+        /// </summary>
+        /// <param name="klanten">klanten array</param>
+        static BinaryTree binary_Tree(Klant[] klanten)
+        {
+            BinaryTree tree = new BinaryTree(klanten);
+            return tree;
         }
     }
 }

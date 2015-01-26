@@ -89,22 +89,22 @@ namespace Practicum_opdracht
                         if(klantensortkeuze == 1)
                         {
                            int klantensortkeuze2;
-                           Console.WriteLine("Kies 1 om op achternaam te sorteren , kies 2 om op leeftijd te sorteren");
+                           Console.WriteLine("Kies 1 om op achternaam te sorteren , kies 2 om op leeftijd te sorteren, Kies 3 om de laatste klant op achternaam te sorteren");
                            klantensortkeuze2 = opdracht = Int32.Parse(Console.ReadLine());
 
                             if (klantensortkeuze2 == 1)
                             {
                                 Klanten = Sorteer_klanten_op_achternaam(Klanten);
-                                Print_Klanten(Klanten);
                             }
                             else if (klantensortkeuze2 == 2)
                             {
                                 Klanten = Sorteer_klanten_Op_Leeftijd(Klanten, 0, Klanten.Length-1);
-                                Print_Klanten(Klanten);
                             }
-
-                           Klanten = Sorteer_klanten_op_achternaam(Klanten);
-                           Print_Klanten(Klanten);
+                            else if (klantensortkeuze2 == 3)
+                            {
+                                Klanten = Sort_laatste_Klant_op_achternaam(Klanten);
+                            }
+                            Print_Klanten(Klanten);
                         }
 
                         else if (klantensortkeuze == 2)
@@ -117,7 +117,7 @@ namespace Practicum_opdracht
                             {
                                 Console.WriteLine("Voer achternaam in");
                                 String achternaam = Console.ReadLine();
-                                Zoek_klant_op_achternaam(Klanten, achternaam);
+                                Zoek_klant_op_achternaam(Klanten, achternaam, 0, Klanten.Length-1);
                             }
                             else if (klantensortkeuze2 == 2)
                             {
@@ -343,7 +343,7 @@ namespace Practicum_opdracht
         static Klant[] Vul__Klant_Array(Klant[] klanten)
         {
             Random rnd = new Random();
-            string[] klantenstring = new string[13] { "Liam", "Emma", "Noah", "Olivia", "Ethan", "Sophia", "Mason", "Ava", "Logan", "Isabella", "Lucas", "Mia", "Jacob" }; 
+            string[] klantenstring = new string[13] { "Liam", "Emma", "Noah", "Olivia", "Ethan", "Ethan", "Mason", "Ava", "Logan", "Isabella", "Andre", "Mia", "Jacob" }; 
 
             for (int i = 1; i < klanten.Length+1; i++)
             {                
@@ -448,29 +448,96 @@ namespace Practicum_opdracht
             return Klanten;
         }
 
+        public static Klant[] Sort_laatste_Klant_op_achternaam(Klant[] Klanten)
+        {
+            Klant X;
+            int i, j;
+            
+            j = Klanten.Length - 1;
+                X = Klanten[j];
+                i = j - 1;
+                while (i >= 0)
+                {
+                    if (X.Achternaam.CompareTo(Klanten[i].Achternaam) > 0)
+                    {
+                        break;
+                    }
+                    Klanten[i + 1] = Klanten[i];
+                    i--;
+                }
+                Klanten[i + 1] = X;
+            return Klanten;
+        }
+
         /// <summary>
         /// methode om een klant uit klanten array op achternaam te vinden
         /// </summary>
         /// <param name="klanten">klantenarray</param>
         /// <param name="achternaam">string achternaam</param>
-        public static void Zoek_klant_op_achternaam(Klant[] klanten, String achternaam)
+        public static void Zoek_klant_op_achternaam(Klant[] klanten, String achternaam, int imin, int imax)
         {
-            for (int i = 0; i < klanten.Length; i++)
-                if (klanten[i].Achternaam == achternaam)
-                {
-                    Console.WriteLine("Klant " + i);
-                    Console.WriteLine("Klant_ID:       " + klanten[i].Klant_ID);
-                    Console.WriteLine("Voornaam:       " + klanten[i].Voornaam);
-                    Console.WriteLine("Tussenvoegsel:  " + klanten[i].Tussenvoegsel);
-                    Console.WriteLine("Achternaam:     " + klanten[i].Achternaam);
-                    Console.WriteLine("Leeftijd:       " + klanten[i].Leeftijd);
-                    Console.WriteLine("Geslacht:       " + klanten[i].Geslacht);
-                    Console.WriteLine("Plaats:         " + klanten[i].Plaats);
-                    Console.WriteLine("E-mail:         " + klanten[i].Email);
-                    Console.WriteLine("");
-                }
-        }
+            int imid = (imin + imax) / 2;
+            if (klanten[imid].Achternaam.CompareTo(achternaam) > 0)
+            {
+                Zoek_klant_op_achternaam(klanten, achternaam, imin, imid - 1);
+            }
+            else if(klanten[imid].Achternaam.CompareTo(achternaam) < 0)
+            {
+                Zoek_klant_op_achternaam(klanten, achternaam, imid + 1, imax);
+            }
+            else
+            {
+                Console.WriteLine("Klant " + imid);
+                Console.WriteLine("Klant_ID:       " + klanten[imid].Klant_ID);
+                Console.WriteLine("Voornaam:       " + klanten[imid].Voornaam);
+                Console.WriteLine("Tussenvoegsel:  " + klanten[imid].Tussenvoegsel);
+                Console.WriteLine("Achternaam:     " + klanten[imid].Achternaam);
+                Console.WriteLine("Leeftijd:       " + klanten[imid].Leeftijd);
+                Console.WriteLine("Geslacht:       " + klanten[imid].Geslacht);
+                Console.WriteLine("Plaats:         " + klanten[imid].Plaats);
+                Console.WriteLine("E-mail:         " + klanten[imid].Email);
+                Console.WriteLine("");
+                Binary_search_Improved_Up(klanten, achternaam, imid);
+                Binary_search_Improved_Down(klanten, achternaam, imid);
+            }
 
+        }
+        public static void Binary_search_Improved_Up(Klant[] klanten, string achternaam, int start)
+        {
+            int newstart = start+1;
+            if (klanten[newstart].Achternaam == achternaam)
+            {
+                Console.WriteLine("Klant " + newstart);
+                Console.WriteLine("Klant_ID:       " + klanten[newstart].Klant_ID);
+                Console.WriteLine("Voornaam:       " + klanten[newstart].Voornaam);
+                Console.WriteLine("Tussenvoegsel:  " + klanten[newstart].Tussenvoegsel);
+                Console.WriteLine("Achternaam:     " + klanten[newstart].Achternaam);
+                Console.WriteLine("Leeftijd:       " + klanten[newstart].Leeftijd);
+                Console.WriteLine("Geslacht:       " + klanten[newstart].Geslacht);
+                Console.WriteLine("Plaats:         " + klanten[newstart].Plaats);
+                Console.WriteLine("E-mail:         " + klanten[newstart].Email);
+                Console.WriteLine("");
+                Binary_search_Improved_Up(klanten, achternaam, newstart);
+            }
+        }
+        public static void Binary_search_Improved_Down(Klant[] klanten, string achternaam, int start)
+        {
+            int newstart = start - 1;
+            if (klanten[newstart].Achternaam == achternaam)
+            {
+                Console.WriteLine("Klant " + newstart);
+                Console.WriteLine("Klant_ID:       " + klanten[newstart].Klant_ID);
+                Console.WriteLine("Voornaam:       " + klanten[newstart].Voornaam);
+                Console.WriteLine("Tussenvoegsel:  " + klanten[newstart].Tussenvoegsel);
+                Console.WriteLine("Achternaam:     " + klanten[newstart].Achternaam);
+                Console.WriteLine("Leeftijd:       " + klanten[newstart].Leeftijd);
+                Console.WriteLine("Geslacht:       " + klanten[newstart].Geslacht);
+                Console.WriteLine("Plaats:         " + klanten[newstart].Plaats);
+                Console.WriteLine("E-mail:         " + klanten[newstart].Email);
+                Console.WriteLine("");
+                Binary_search_Improved_Down(klanten, achternaam, newstart);
+            }
+        }
         /// <summary>
         /// methode om een klant uit klanten array op leeftijd te vinden
         /// </summary>

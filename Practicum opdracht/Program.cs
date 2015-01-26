@@ -129,6 +129,9 @@ namespace Practicum_opdracht
                         break;
                     case 8:
 
+                        Klant[] tempKlanten = new Klant[Klanten.Length];
+                        tempKlanten = Klanten;
+
                         // maak binary tree van klanten array
                         BinaryTree tree = binary_Tree(Klanten);
                         
@@ -140,33 +143,66 @@ namespace Practicum_opdracht
 
                         if (keuze == 1)
                         {
-                            Klant tklant = new Klant();
+                            tempKlanten = new Klant[Klanten.Length + 1];
+                            tempKlanten = Klanten;
+
+                            int debug = tempKlanten.Length - 1;
 
                             Console.WriteLine("Voer een Klant ID in (cijfers):");
-                            tklant.Klant_ID = Int32.Parse(Console.ReadLine());
+                            tempKlanten[tempKlanten.Length - 1].Klant_ID = Int32.Parse(Console.ReadLine());
                             Console.WriteLine("Voer een Klant Voornaam in:");
-                            tklant.Voornaam = Console.ReadLine();
+                            tempKlanten[tempKlanten.Length - 1].Voornaam = Console.ReadLine();
                             Console.WriteLine("Voer een Klant Tussenvoegsel in:");
-                            tklant.Tussenvoegsel = Console.ReadLine();
+                            tempKlanten[tempKlanten.Length - 1].Tussenvoegsel = Console.ReadLine();
                             Console.WriteLine("Voer een Klant Achternaam in:");
-                            tklant.Achternaam = Console.ReadLine();
+                            tempKlanten[tempKlanten.Length - 1].Achternaam = Console.ReadLine();
                             Console.WriteLine("Voer een Klant Leeftijd in (cijfers):");
-                            tklant.Leeftijd = Int32.Parse(Console.ReadLine());
+                            tempKlanten[tempKlanten.Length - 1].Leeftijd = Int32.Parse(Console.ReadLine());
                             Console.WriteLine("Voer een Klant Geslacht in:");
-                            tklant.Geslacht = Console.ReadLine();
+                            tempKlanten[tempKlanten.Length - 1].Geslacht = Console.ReadLine();
                             Console.WriteLine("Voer een Klant Plaats in:");
-                            tklant.Plaats = Console.ReadLine(); 
+                            tempKlanten[tempKlanten.Length - 1].Plaats = Console.ReadLine();
                             Console.WriteLine("Voer een Klant Email in:");
-                            tklant.Email = Console.ReadLine();
+                            tempKlanten[tempKlanten.Length - 1].Email = Console.ReadLine();
 
-                            Klant[] tempklant = new Klant[1];
-                            tempklant[0] = tklant;
+                            tree = binary_Tree(tempKlanten);
 
-                            tree.Insert(tempklant);
+                            //Klant tklant = new Klant();
+
+                            //Console.WriteLine("Voer een Klant ID in (cijfers):");
+                            //tklant.Klant_ID = Int32.Parse(Console.ReadLine());
+                            //Console.WriteLine("Voer een Klant Voornaam in:");
+                            //tklant.Voornaam = Console.ReadLine();
+                            //Console.WriteLine("Voer een Klant Tussenvoegsel in:");
+                            //tklant.Tussenvoegsel = Console.ReadLine();
+                            //Console.WriteLine("Voer een Klant Achternaam in:");
+                            //tklant.Achternaam = Console.ReadLine();
+                            //Console.WriteLine("Voer een Klant Leeftijd in (cijfers):");
+                            //tklant.Leeftijd = Int32.Parse(Console.ReadLine());
+                            //Console.WriteLine("Voer een Klant Geslacht in:");
+                            //tklant.Geslacht = Console.ReadLine();
+                            //Console.WriteLine("Voer een Klant Plaats in:");
+                            //tklant.Plaats = Console.ReadLine(); 
+                            //Console.WriteLine("Voer een Klant Email in:");
+                            //tklant.Email = Console.ReadLine();
+
+                            //Klant[] tempklant = new Klant[1];
+                            //tempklant[0] = tklant;
+
+                            //tree.Insert(tempklant);
                         }
                         else
                         {
-                            // verwijder klant methode komt hier.
+                            tempKlanten = new Klant[Klanten.Length];
+                            tempKlanten = Klanten;
+                            int i = 0;
+
+                            Console.WriteLine("voer Klant ID in (cijfers)");
+                            int input = Int32.Parse(Console.ReadLine());
+
+                            tempKlanten = Verwijder_Klanten(tempKlanten, input);
+
+                            tree = binary_Tree(tempKlanten);
                         }
                         
                         
@@ -265,6 +301,43 @@ namespace Practicum_opdracht
             for (int k = 0; k < Aantal_Compleet; k++)
             {
                 queue_nieuw = Maak_Bestelling_Array_Korter(queue_nieuw);
+            }
+
+            Array.Copy(queue_Zonder_Complete_Bestellingen, queue_nieuw, queue_nieuw.Length);
+            return queue_nieuw;
+        }
+
+        /// <summary>
+        /// methode om klant te verwijderen
+        /// </summary>
+        /// <param name="queue">klantarray</param>
+        /// <param name="invoer">klant id int</param>
+        /// <returns>klantarray</returns>
+        static Klant[] Verwijder_Klanten(Klant[] queue, int invoer)
+        {
+            int j = 0;
+            int Aantal_Compleet = 0;
+
+            Klant[] queue_Zonder_Complete_Bestellingen = new Klant[queue.Length];
+
+            for (int i = 0; i < queue.Length; i++)
+            {
+                if (queue[i].Klant_ID == invoer)
+                {
+                    Aantal_Compleet++;
+                }
+                else
+                {                   
+                    queue_Zonder_Complete_Bestellingen[j] = queue[i];
+                    j++;
+                }
+            }
+
+            Klant[] queue_nieuw = new Klant[queue.Length];
+
+            for (int k = 0; k < Aantal_Compleet; k++)
+            {
+                queue_nieuw = Maak_Klant_Array_Korter(queue_nieuw);
             }
 
             Array.Copy(queue_Zonder_Complete_Bestellingen, queue_nieuw, queue_nieuw.Length);
@@ -426,6 +499,11 @@ namespace Practicum_opdracht
             return input;
         }
 
+        /// <summary>
+        /// sorteer klant op achternaam
+        /// </summary>
+        /// <param name="Klanten">klantenarray</param>
+        /// <returns>klantenarray</returns>
         public static Klant[] Sorteer_klanten_op_achternaam(Klant[] Klanten)
         {
             Klant X;
@@ -574,6 +652,18 @@ namespace Practicum_opdracht
         }
 
         /// <summary>
+        /// maak klantenaaray langer met plus 1
+        /// </summary>
+        /// <param name="Array_Oud">klantenarray</param>
+        /// <returns>klantenarray</returns>
+        static Klant[] Voeg_Klantindex_Toe(Klant[] Array_Oud)
+        {
+            Klant[] Array_Nieuw = new Klant[Array_Oud.Length + 1];
+            Array.Copy(Array_Oud, Array_Nieuw, Array_Oud.Length);
+            return Array_Nieuw;
+        }
+
+        /// <summary>
         /// methode om de bestellingen array te verkleinen met 1
         /// </summary>
         /// <param name="Array_Oud">bestellingen array</param>
@@ -583,6 +673,18 @@ namespace Practicum_opdracht
             Bestelling[] Array_Nieuw = new Bestelling[Array_Oud.Length - 1];
             Array.Copy(Array_Oud, Array_Nieuw, Array_Oud.Length - 1);
             return Array_Nieuw;            
+        }
+
+        /// <summary>
+        /// maak klant array korter met min 1
+        /// </summary>
+        /// <param name="Array_Oud">klantarray</param>
+        /// <returns>klantarray</returns>
+        static Klant[] Maak_Klant_Array_Korter(Klant[] Array_Oud)
+        {
+            Klant[] Array_Nieuw = new Klant[Array_Oud.Length - 1];
+            Array.Copy(Array_Oud, Array_Nieuw, Array_Oud.Length - 1);
+            return Array_Nieuw;
         }
 
         /// <summary>
